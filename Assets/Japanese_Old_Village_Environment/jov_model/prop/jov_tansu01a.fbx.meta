@@ -1,0 +1,150 @@
+fileFormatVersion: 2
+guid: 9ac77986a3b202240834e6319ffffa02
+timeCreated: 1567251692
+licenseType: Store
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: jov_tansu01a_chest1
+    100004: jov_tansu01a_chest2
+    100006: jov_tansu01a_chest3
+    100008: jov_tansu01a_chest4
+    100010: jov_tansu01a_chest5
+    100012: jov_tansu01a_chesthundle01.001
+    100014: jov_tansu01a_chesthundle01.002
+    100016: jov_tansu01a_chesthundle01.003
+    100018: jov_tansu01a_chesthundle01.004
+    100020: jov_tansu01a_chesthundle01.005
+    100022: jov_tansu01a_chesthundle01.006
+    100024: jov_tansu01a_chesthundle01.007
+    100026: jov_tansu01a_chesthundle01.008
+    100028: jov_tansu01a_chesthundle01.023
+    400000: //RootNode
+    400002: jov_tansu01a_chest1
+    400004: jov_tansu01a_chest2
+    400006: jov_tansu01a_chest3
+    400008: jov_tansu01a_chest4
+    400010: jov_tansu01a_chest5
+    400012: jov_tansu01a_chesthundle01.001
+    400014: jov_tansu01a_chesthundle01.002
+    400016: jov_tansu01a_chesthundle01.003
+    400018: jov_tansu01a_chesthundle01.004
+    400020: jov_tansu01a_chesthundle01.005
+    400022: jov_tansu01a_chesthundle01.006
+    400024: jov_tansu01a_chesthundle01.007
+    400026: jov_tansu01a_chesthundle01.008
+    400028: jov_tansu01a_chesthundle01.023
+    2300000: //RootNode
+    2300002: jov_tansu01a_chest1
+    2300004: jov_tansu01a_chest2
+    2300006: jov_tansu01a_chest3
+    2300008: jov_tansu01a_chest4
+    2300010: jov_tansu01a_chest5
+    2300012: jov_tansu01a_chesthundle01.001
+    2300014: jov_tansu01a_chesthundle01.002
+    2300016: jov_tansu01a_chesthundle01.003
+    2300018: jov_tansu01a_chesthundle01.004
+    2300020: jov_tansu01a_chesthundle01.005
+    2300022: jov_tansu01a_chesthundle01.006
+    2300024: jov_tansu01a_chesthundle01.007
+    2300026: jov_tansu01a_chesthundle01.008
+    2300028: jov_tansu01a_chesthundle01.023
+    3300000: //RootNode
+    3300002: jov_tansu01a_chest1
+    3300004: jov_tansu01a_chest2
+    3300006: jov_tansu01a_chest3
+    3300008: jov_tansu01a_chest4
+    3300010: jov_tansu01a_chest5
+    3300012: jov_tansu01a_chesthundle01.001
+    3300014: jov_tansu01a_chesthundle01.002
+    3300016: jov_tansu01a_chesthundle01.003
+    3300018: jov_tansu01a_chesthundle01.004
+    3300020: jov_tansu01a_chesthundle01.005
+    3300022: jov_tansu01a_chesthundle01.006
+    3300024: jov_tansu01a_chesthundle01.007
+    3300026: jov_tansu01a_chesthundle01.008
+    3300028: jov_tansu01a_chesthundle01.023
+    4300000: jov_tansu01a_lod1
+    4300002: jov_tansu01a_chest2
+    4300004: jov_tansu01a_chesthundle01.007
+    4300006: jov_tansu01a_chest5
+    4300008: jov_tansu01a_chest4
+    4300010: jov_tansu01a_chest3
+    4300012: jov_tansu01a_chest1
+    4300014: jov_tansu01a_chesthundle01.023
+    4300016: jov_tansu01a_chesthundle01.002
+    4300018: jov_tansu01a_chesthundle01.001
+    4300020: jov_tansu01a_chesthundle01.004
+    4300022: jov_tansu01a_chesthundle01.003
+    4300024: jov_tansu01a_chesthundle01.006
+    4300026: jov_tansu01a_chesthundle01.005
+    4300028: jov_tansu01a_chesthundle01.008
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 2
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 1
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

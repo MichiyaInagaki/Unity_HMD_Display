@@ -1,0 +1,216 @@
+fileFormatVersion: 2
+guid: 68bda0c3ba9b2a147a3522db2fefb328
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: hikido03ar
+    100002: jov_diner
+    100004: //RootNode
+    100006: jov_diner_floor
+    100008: jov_diner_kawara
+    100010: jov_diner_roof
+    100012: jov_diner_wall_a
+    100014: jov_diner_wall_b
+    100016: jov_diner_wall_c
+    100018: "\u9762\u6881\u308A"
+    100020: jov_diner_signboard
+    100022: menuboards
+    400000: hikido03ar
+    400002: //RootNode
+    400004: jov_diner
+    400006: jov_diner_floor
+    400008: jov_diner_kawara
+    400010: jov_diner_roof
+    400012: jov_diner_wall_a
+    400014: jov_diner_wall_b
+    400016: jov_diner_wall_c
+    400018: "\u9762\u6881\u308A"
+    400020: jov_diner_signboard
+    400022: menuboards
+    2300000: hikido03ar
+    2300002: jov_diner
+    2300004: jov_diner_floor
+    2300006: jov_diner_kawara
+    2300008: jov_diner_roof
+    2300010: jov_diner_wall_a
+    2300012: jov_diner_wall_b
+    2300014: jov_diner_wall_c
+    2300016: "\u9762\u6881\u308A"
+    2300018: //RootNode
+    2300020: jov_diner_signboard
+    2300022: menuboards
+    3300000: hikido03ar
+    3300002: jov_diner
+    3300004: jov_diner_floor
+    3300006: jov_diner_kawara
+    3300008: jov_diner_roof
+    3300010: jov_diner_wall_a
+    3300012: jov_diner_wall_b
+    3300014: jov_diner_wall_c
+    3300016: "\u9762\u6881\u308A"
+    3300018: //RootNode
+    3300020: jov_diner_signboard
+    3300022: menuboards
+    4300000: jov_diner
+    4300002: jov_diner_wall_a
+    4300004: jov_diner_wall_b
+    4300006: jov_diner_wall_c
+    4300008: jov_diner_roof
+    4300010: jov_diner_floor
+    4300012: jov_diner_kawara
+    4300014: hikido03ar
+    4300016: "\u9762\u6881\u308A"
+    4300018: jov_diner_signboard
+    4300020: menuboards
+    2186277476908879412: ImportLogs
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: inwall01
+    second: {fileID: 2100000, guid: 4dea0fca59990734a911ef316aee63ef, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ita_mortal01
+    second: {fileID: 2100000, guid: 82f25dfdd78d0044098f7ba10f9185fd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: jov_paper
+    second: {fileID: 2100000, guid: 13152d1557f8e6e4abe16fb2c00a2eb6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: jov_prop01
+    second: {fileID: 2100000, guid: 7bfc0c83a11a2aa4085be0e9bff2c9e8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: jov_wood10s
+    second: {fileID: 2100000, guid: ef4b2b510924843488ba37d0328c7e67, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: jov_wood11s
+    second: {fileID: 2100000, guid: ea60d859b558841458cee76b04b4487a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: jovmat01
+    second: {fileID: 2100000, guid: bf8eb4b03e03d124abbc1263e2e8aabb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: jovmat03
+    second: {fileID: 2100000, guid: c5fab8cf1c36edd4197b9a31eafd89ff, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: jovwood1
+    second: {fileID: 2100000, guid: aefd2875c0b470a419bd2d9d5ebec9bf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: kawara_c0
+    second: {fileID: 2100000, guid: 7aadf2b3b02503d4bbca1d1f09acf0a3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mado08
+    second: {fileID: 2100000, guid: 354500cb915b5ed4bb2554d66c8abdbd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: onikawara_c0
+    second: {fileID: 2100000, guid: a6b3dff28b634df40a2cd9c2c3535916, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wood3wakuwall
+    second: {fileID: 2100000, guid: 61b2f7a42fe5916419c4f5ac75d19a95, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 2
+    materialLocation: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 1
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 0
+    importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

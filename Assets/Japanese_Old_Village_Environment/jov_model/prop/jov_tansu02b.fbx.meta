@@ -1,0 +1,135 @@
+fileFormatVersion: 2
+guid: 89b55bec58f62fa44a723f87b0c231c8
+timeCreated: 1567252690
+licenseType: Store
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: jov_tansu01a_chesthundle01.016
+    100002: jov_tansu01a_chesthundle01.017
+    100004: jov_tansu01a_chesthundle01.018
+    100006: jov_tansu01a_chesthundle01.019
+    100008: jov_tansu01a_chesthundle01.020
+    100010: //RootNode
+    100012: jov_tansu02b_chest1
+    100014: jov_tansu02b_chest2
+    100016: jov_tansu02b_chest3
+    100018: jov_tansu02b_chest4
+    100020: jov_tansu02b_chest5
+    100022: jov_tansu02b_chesthundle01
+    400000: jov_tansu01a_chesthundle01.016
+    400002: jov_tansu01a_chesthundle01.017
+    400004: jov_tansu01a_chesthundle01.018
+    400006: jov_tansu01a_chesthundle01.019
+    400008: jov_tansu01a_chesthundle01.020
+    400010: //RootNode
+    400012: jov_tansu02b_chest1
+    400014: jov_tansu02b_chest2
+    400016: jov_tansu02b_chest3
+    400018: jov_tansu02b_chest4
+    400020: jov_tansu02b_chest5
+    400022: jov_tansu02b_chesthundle01
+    2300000: jov_tansu01a_chesthundle01.016
+    2300002: jov_tansu01a_chesthundle01.017
+    2300004: jov_tansu01a_chesthundle01.018
+    2300006: jov_tansu01a_chesthundle01.019
+    2300008: jov_tansu01a_chesthundle01.020
+    2300010: //RootNode
+    2300012: jov_tansu02b_chest1
+    2300014: jov_tansu02b_chest2
+    2300016: jov_tansu02b_chest3
+    2300018: jov_tansu02b_chest4
+    2300020: jov_tansu02b_chest5
+    2300022: jov_tansu02b_chesthundle01
+    3300000: jov_tansu01a_chesthundle01.016
+    3300002: jov_tansu01a_chesthundle01.017
+    3300004: jov_tansu01a_chesthundle01.018
+    3300006: jov_tansu01a_chesthundle01.019
+    3300008: jov_tansu01a_chesthundle01.020
+    3300010: //RootNode
+    3300012: jov_tansu02b_chest1
+    3300014: jov_tansu02b_chest2
+    3300016: jov_tansu02b_chest3
+    3300018: jov_tansu02b_chest4
+    3300020: jov_tansu02b_chest5
+    3300022: jov_tansu02b_chesthundle01
+    4300000: jov_tansu02b_lod1
+    4300002: jov_tansu02b_chest5
+    4300004: jov_tansu01a_chesthundle01.016
+    4300006: jov_tansu02b_chest4
+    4300008: jov_tansu01a_chesthundle01.020
+    4300010: jov_tansu02b_chest3
+    4300012: jov_tansu01a_chesthundle01.019
+    4300014: jov_tansu02b_chest2
+    4300016: jov_tansu01a_chesthundle01.018
+    4300018: jov_tansu02b_chest1
+    4300020: jov_tansu01a_chesthundle01.017
+    4300022: jov_tansu02b_chesthundle01
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 2
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 1
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
