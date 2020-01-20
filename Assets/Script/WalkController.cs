@@ -11,7 +11,7 @@ public class WalkController : MonoBehaviour
     public Camera mainCamera;
     public float moveSpeed = 0.01f;
     public float moveAngleX = 20.0f;
-    public int stride = 20;
+    public int stride = 15;
     private bool tap_flag = false;
     private int walk_count = 0;
     private string filePath = @"C:\Users\sens\Desktop\inagaki_exp1_display\CSV\saveData.csv";

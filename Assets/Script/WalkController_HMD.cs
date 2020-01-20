@@ -11,7 +11,7 @@ public class WalkController_HMD : MonoBehaviour
     public GameObject mainCamera;
     public float moveAngleX = 20.0f;
     public float moveSpeed = 1.5f;
-    public int stride = 20;
+    public int stride = 15;
     private float Xrange = 1000.0f;
     private float Zrange = 1000.0f;
     private bool tap_flag = false;
