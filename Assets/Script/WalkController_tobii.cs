@@ -84,9 +84,9 @@ public class WalkController_tobii : MonoBehaviour
             }
         }
         //キーボード版
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            walk_count++;
+            //walk_count++;
             moveForward_D();
         }
         //if (Input.GetKeyDown(KeyCode.DownArrow))

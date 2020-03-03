@@ -776,6 +776,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UDP: {fileID: 1890890866}
   VReye: {fileID: 639716144}
+  mainCamera: {fileID: 1723278075}
+  moveSpeed: 0.01
+  moveAngleX: 20
+  stride: 15
+  span: 1
 --- !u!4 &20544005
 Transform:
   m_ObjectHideFlags: 0
@@ -14966,7 +14971,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &546336283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54749,6 +54754,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   yaw_val: 0
   pitch_val: 0
+  roll_val: 0
   Responsiveness: 10
 --- !u!4 &1890890868
 Transform:

@@ -9,6 +9,14 @@ public class FaceController_tobii : MonoBehaviour
 
     public GameObject UDP;
     public GameObject VReye;
+    public Camera mainCamera;
+    //歩行
+    public float moveSpeed = 0.01f;
+    public float moveAngleX = 20.0f;
+    public int stride = 15;
+    private bool first_step_flag = true;    //短押し用フラグ
+    public float span = 1.0f;               //長押しの時間間隔
+    private float currentTime = 0f;
     //
     private Vector3 lastMousePosition;
     private Vector3 newAngle = new Vector3(0, 0, 0);
@@ -24,10 +32,13 @@ public class FaceController_tobii : MonoBehaviour
     private float initial_angle = 0.0f;             //初期角度
     private float initial_angle_pitch = 0.0f;       //初期角度pitch
     private float move_angle = 20.0f;               //追従角度（局所回転を行う角度）
-    private float rotation_speed = 0.5f;            //旋回スピード
+    private float move_angle_pitch = 10.0f;         //追従角度（局所回転を行う角度）
+    private float rotation_speed = 1.0f;            //旋回スピード
     private float rotation_angle = 0.0f;            //旋回角度
-    private float rotation_angle_pitch = 0.0f;            //旋回角度
+    private float rotation_angle_pitch = 0.0f;      //旋回角度
     private float temp_yaw_angle = 0.0f;            //一時格納する角度
+    private float max_pitch = 20;                   //キーボード操作pitch角最大
+    private float min_pitch = -20;                  //キーボード操作pitch角最小
     //ゲイン
     private float rotation_gain = 1.5f;     //局所回転ゲイン
     private float pitch_gain = 1.0f;        //pitchゲイン
@@ -63,7 +74,7 @@ public class FaceController_tobii : MonoBehaviour
         pitch_angle = UDP.GetComponent<TobiiEyeTracking.HeadMovementV>().pitch_val;
         roll_angle = UDP.GetComponent<TobiiEyeTracking.HeadMovementV>().roll_val;
         //Debug.Log(yaw_angle);
-        
+
         //ローパスフィルタ
         yaw_angle = pre_yaw * filter_gain + yaw_angle * (1 - filter_gain);
         pre_yaw = yaw_angle;
@@ -114,7 +125,8 @@ public class FaceController_tobii : MonoBehaviour
         //各種処理
         if (f1_flag == true)
         {
-            //1-1. 局所回転：あり / 大域回転：頭部（顔戻しなし）///////////////////////////////////////
+            //1-1. 局所回転：あり（Yaw＋Pitch） / 大域回転：頭部制御（Yawのみ）////////////////////////////
+            //頭部制御部
             if (Math.Abs(yaw_angle) > Math.Abs(move_angle))
             {
                 if (yaw_angle < 0)
@@ -126,27 +138,45 @@ public class FaceController_tobii : MonoBehaviour
                     rotation_angle += rotation_speed;
                 }
             }
-
-            //if (Input.GetKey(KeyCode.UpArrow))
-            //{
-            //    rotation_angle_pitch -= rotation_speed;
-            //}
-
-            //if (Input.GetKey(KeyCode.DownArrow))
-            //{
-            //    rotation_angle_pitch += rotation_speed;
-            //}
-            //newAngle.x = rotation_angle_pitch;                           //キーボードでpitch角操作
-            newAngle.x = 0;      //首回転角pitch初期化
-            newAngle.z = 0;      //首回転角roll初期化
             newAngle.y = yaw_angle - initial_angle + rotation_angle;     //首回転角＋初期調整角度＋旋回角度
+            newAngle.z = 0;                                              //首回転角roll初期化
+            newAngle.x = pitch_angle + initial_angle_pitch;              //首回転角pitch
             VReye.gameObject.transform.localEulerAngles = newAngle;
-            //END 1-1.////////////////////////////////////////////////////////////////////////////
+            //歩行動作（長押し・短押し対応版）
+            if (Input.GetKey(KeyCode.Space))
+            {
+                currentTime += Time.deltaTime;  //長押しの時間カウント
+                if (first_step_flag == true)    //最初に押した瞬間は一歩進む（短押し用）
+                {
+                    moveForward_D();
+                    first_step_flag = false;
+                }
+                else
+                {
+                    if (currentTime > span)     //長押しで一定時間ごとに前進
+                    {
+                        moveForward_D();
+                        currentTime = 0f;
+                    }
+                }
+            }
+            if (Input.GetKeyUp(KeyCode.Space))  //ボタン離したらフラグ戻す（短押し用）
+            {
+                first_step_flag = true;
+                currentTime = 0f;
+            }
+            ////歩行動作（短押しのみ対応版）
+            //if (Input.GetKeyDown(KeyCode.Space))
+            //{
+            //    moveForward_D();
+            //}
+            //END 1-1.///////////////////////////////////////////////////////////////////////////////////////
         }
 
         if (f2_flag == true)
         {
-            //2. 局所回転：なし / 大域回転：頭部///////////////////////////////////////////////////////
+            //2. 局所回転：なし / 大域回転：頭部制御（Yaw＋Pitch）///////////////////////////////////////////
+            //頭部制御部Yaw
             if (Math.Abs(yaw_angle) > Math.Abs(move_angle))
             {
                 if (yaw_angle < 0)
@@ -158,27 +188,57 @@ public class FaceController_tobii : MonoBehaviour
                     rotation_angle += rotation_speed;
                 }
             }
-
-            //if (Input.GetKey(KeyCode.UpArrow))
-            //{
-            //    rotation_angle_pitch -= rotation_speed;
-            //}
-
-            //if (Input.GetKey(KeyCode.DownArrow))
-            //{
-            //    rotation_angle_pitch += rotation_speed;
-            //}
-            //newAngle.x = rotation_angle_pitch;                           //キーボードでpitch角操作
-            newAngle.x = 0;      //首回転角pitch初期化
+            //頭部制御部Pitch（角度制限あり）
+            if (Math.Abs(pitch_angle) > Math.Abs(move_angle_pitch))
+            {
+                if (pitch_angle < 0)
+                {
+                    if (rotation_angle_pitch > min_pitch)
+                    {
+                        rotation_angle_pitch -= rotation_speed;
+                    }
+                }
+                else
+                {
+                    if (rotation_angle_pitch < max_pitch)
+                    {
+                        rotation_angle_pitch += rotation_speed;
+                    }
+                }
+            }
+            newAngle.x = rotation_angle_pitch;                //pitch
             newAngle.z = 0;      //首回転角roll初期化
             newAngle.y = -initial_angle + rotation_angle;     //初期調整角度＋旋回角度
             VReye.gameObject.transform.localEulerAngles = newAngle;
-            //END 2.//////////////////////////////////////////////////////////////////////////////
+            //歩行動作（長押し・短押し対応版）
+            if (Input.GetKey(KeyCode.Space))
+            {
+                currentTime += Time.deltaTime;  //長押しの時間カウント
+                if (first_step_flag == true)    //最初に押した瞬間は一歩進む（短押し用）
+                {
+                    moveForward_D();
+                    first_step_flag = false;
+                }
+                else
+                {
+                    if (currentTime > span)     //長押しで一定時間ごとに前進
+                    {
+                        moveForward_D();
+                        currentTime = 0f;
+                    }
+                }
+            }
+            if (Input.GetKeyUp(KeyCode.Space))  //ボタン離したらフラグ戻す（短押し用）
+            {
+                first_step_flag = true;
+                currentTime = 0f;
+            }
+            //END 2.//////////////////////////////////////////////////////////////////////////////////////////
         }
 
         if (f3_flag == true)
         {
-            //3. 局所回転：あり / 大域回転：デバイス///////////////////////////////////////
+            //3. 局所回転：あり（Yawのみ） / 大域回転：デバイス（Yaw＋Pitch）/////////////////////////////////
             if (Input.GetKey(KeyCode.LeftArrow))
             {
                 rotation_angle -= rotation_speed;
@@ -189,49 +249,55 @@ public class FaceController_tobii : MonoBehaviour
                 rotation_angle += rotation_speed;
             }
 
-            //if (Input.GetKey(KeyCode.UpArrow))
-            //{
-            //    rotation_angle_pitch -= rotation_speed;
-            //}
+            if (Input.GetKey(KeyCode.UpArrow))
+            {
+                if (rotation_angle_pitch > min_pitch)
+                {
+                    rotation_angle_pitch -= rotation_speed;
+                }
+            }
 
-            //if (Input.GetKey(KeyCode.DownArrow))
-            //{
-            //    rotation_angle_pitch += rotation_speed;
-            //}
-            //newAngle.x = rotation_angle_pitch;                           //キーボードでpitch角操作
-            newAngle.x = 0;      //首回転角pitch初期化
+            if (Input.GetKey(KeyCode.DownArrow))
+            {
+                if (rotation_angle_pitch < max_pitch)
+                {
+                    rotation_angle_pitch += rotation_speed;
+                }
+            }
+            newAngle.x = rotation_angle_pitch;                           //キーボードでpitch角操作
+            //newAngle.x = 0;      //首回転角pitch初期化
             newAngle.z = 0;      //首回転角roll初期化
             newAngle.y = yaw_angle - initial_angle + rotation_angle;     //首回転角＋初期調整角度＋旋回角度
             VReye.gameObject.transform.localEulerAngles = newAngle;
-            //END 3.////////////////////////////////////////////////////////////////////////////
-            ///
-            ////3. 局所回転：あり / 大域回転：デバイス（※大域的回時頭部動作なし）///////////////////////////////////////
-
-            //newAngle.x = 0;      //首回転角pitch初期化
-            //newAngle.z = 0;      //首回転角roll初期化
-            //if (Input.GetKey(KeyCode.LeftArrow))
-            //{
-            //    rotation_angle -= rotation_speed;
-            //    newAngle.y = temp_yaw_angle + rotation_angle;     //首回転角＋初期調整角度＋旋回角度
-
-            //}
-            //else if (Input.GetKey(KeyCode.RightArrow))
-            //{
-            //    rotation_angle += rotation_speed;
-            //    newAngle.y = temp_yaw_angle + rotation_angle;     //首回転角＋初期調整角度＋旋回角度
-            //}
-            //else
-            //{
-            //    temp_yaw_angle = yaw_angle;
-            //    newAngle.y = yaw_angle + initial_angle + rotation_angle;     //首回転角＋初期調整角度＋旋回角度
-            //}
-            //VReye.gameObject.transform.localEulerAngles = newAngle;
-            ////END 3.////////////////////////////////////////////////////////////////////////////
+            //歩行動作（長押し・短押し対応版）
+            if (Input.GetKey(KeyCode.Space))
+            {
+                currentTime += Time.deltaTime;  //長押しの時間カウント
+                if (first_step_flag == true)    //最初に押した瞬間は一歩進む（短押し用）
+                {
+                    moveForward_D();
+                    first_step_flag = false;
+                }
+                else
+                {
+                    if (currentTime > span)     //長押しで一定時間ごとに前進
+                    {
+                        moveForward_D();
+                        currentTime = 0f;
+                    }
+                }
+            }
+            if (Input.GetKeyUp(KeyCode.Space))  //ボタン離したらフラグ戻す（短押し用）
+            {
+                first_step_flag = true;
+                currentTime = 0f;
+            }
+            //END 3./////////////////////////////////////////////////////////////////////////////////////////
         }
 
         if (f4_flag == true)
         {
-            //4. 局所回転：なし / 大域回転：デバイス//////////////////////////////////////////////
+            //4. 局所回転：なし / 大域回転：デバイス（Yaw＋Pitch）///////////////////////////////////////////
             if (Input.GetKey(KeyCode.LeftArrow))
             {
                 rotation_angle -= rotation_speed;
@@ -242,26 +308,55 @@ public class FaceController_tobii : MonoBehaviour
                 rotation_angle += rotation_speed;
             }
 
-            //if (Input.GetKey(KeyCode.UpArrow))
-            //{
-            //    rotation_angle_pitch -= rotation_speed;
-            //}
+            if (Input.GetKey(KeyCode.UpArrow))
+            {
+                if (rotation_angle_pitch > min_pitch)
+                {
+                    rotation_angle_pitch -= rotation_speed;
+                }
+            }
 
-            //if (Input.GetKey(KeyCode.DownArrow))
-            //{
-            //    rotation_angle_pitch += rotation_speed;
-            //}
-            //newAngle.x = rotation_angle_pitch;                           //キーボードでpitch角操作
-            newAngle.x = 0;      //首回転角pitch初期化
+            if (Input.GetKey(KeyCode.DownArrow))
+            {
+                if (rotation_angle_pitch < max_pitch)
+                {
+                    rotation_angle_pitch += rotation_speed;
+                }
+            }
+            newAngle.x = rotation_angle_pitch;                           //キーボードでpitch角操作
+            //newAngle.x = 0;      //首回転角pitch初期化
             newAngle.z = 0;      //首回転角roll初期化
             newAngle.y = -initial_angle + rotation_angle;     //初期調整角度＋旋回角度
             VReye.gameObject.transform.localEulerAngles = newAngle;
-            //END 4.//////////////////////////////////////////////////////////////////////////////
+            //歩行動作（長押し・短押し対応版）
+            if (Input.GetKey(KeyCode.Space))
+            {
+                currentTime += Time.deltaTime;  //長押しの時間カウント
+                if (first_step_flag == true)    //最初に押した瞬間は一歩進む（短押し用）
+                {
+                    moveForward_D();
+                    first_step_flag = false;
+                }
+                else
+                {
+                    if (currentTime > span)     //長押しで一定時間ごとに前進
+                    {
+                        moveForward_D();
+                        currentTime = 0f;
+                    }
+                }
+            }
+            if (Input.GetKeyUp(KeyCode.Space))  //ボタン離したらフラグ戻す（短押し用）
+            {
+                first_step_flag = true;
+                currentTime = 0f;
+            }
+            //END 4./////////////////////////////////////////////////////////////////////////////////////////
         }
 
         if (f5_flag == true)
         {
-            //5. 局所回転：あり（ゲイン付き） / 大域回転：デバイス///////////////////////////////
+            //5. 局所回転：あり（Yaw＋Pitch，ゲイン付き） / 大域回転：デバイス（Yawのみ）////////////////////
             if (Input.GetKey(KeyCode.LeftArrow))
             {
                 rotation_angle -= rotation_speed;
@@ -271,27 +366,39 @@ public class FaceController_tobii : MonoBehaviour
             {
                 rotation_angle += rotation_speed;
             }
-
-            //if (Input.GetKey(KeyCode.UpArrow))
-            //{
-            //    rotation_angle_pitch -= rotation_speed;
-            //}
-
-            //if (Input.GetKey(KeyCode.DownArrow))
-            //{
-            //    rotation_angle_pitch += rotation_speed;
-            //}
-            //newAngle.x = rotation_angle_pitch;                           //キーボードでpitch角操作
-            newAngle.x = 0;      //首回転角pitch初期化
-            newAngle.z = 0;      //首回転角roll初期化
-            newAngle.y = yaw_angle * rotation_gain - initial_angle + rotation_angle;     //（首回転角×ゲイン）＋初期調整角度＋旋回角度
+            newAngle.y = yaw_angle * rotation_gain - initial_angle + rotation_angle;    //（首回転角×ゲイン）＋初期調整角度＋旋回角度
+            newAngle.z = 0;                                                             //首回転角roll初期化
+            newAngle.x = pitch_angle * rotation_gain + initial_angle_pitch;             //首回転角pitch×ゲイン　＋初期調整角度
             VReye.gameObject.transform.localEulerAngles = newAngle;
-            //END 5./////////////////////////////////////////////////////////////////////////////
+            //歩行動作（長押し・短押し対応版）
+            if (Input.GetKey(KeyCode.Space))
+            {
+                currentTime += Time.deltaTime;  //長押しの時間カウント
+                if (first_step_flag == true)    //最初に押した瞬間は一歩進む（短押し用）
+                {
+                    moveForward_D();
+                    first_step_flag = false;
+                }
+                else
+                {
+                    if (currentTime > span)     //長押しで一定時間ごとに前進
+                    {
+                        moveForward_D();
+                        currentTime = 0f;
+                    }
+                }
+            }
+            if (Input.GetKeyUp(KeyCode.Space))  //ボタン離したらフラグ戻す（短押し用）
+            {
+                first_step_flag = true;
+                currentTime = 0f;
+            }
+            //END 5./////////////////////////////////////////////////////////////////////////////////////
         }
 
         if (f6_flag == true)
         {
-            //6. 局所回転：pitchあり / 大域回転：デバイス///////////////////////////////////////
+            //6. 局所回転：あり（Yaw＋Pitch） / 大域回転：デバイス（Yawのみ）/////////////////////////////
             if (Input.GetKey(KeyCode.LeftArrow))
             {
                 rotation_angle -= rotation_speed;
@@ -306,30 +413,112 @@ public class FaceController_tobii : MonoBehaviour
             newAngle.z = 0;                                              //首回転角roll初期化
             newAngle.x = pitch_angle + initial_angle_pitch;              //首回転角pitch
             VReye.gameObject.transform.localEulerAngles = newAngle;
+            //歩行動作（長押し・短押し対応版）
+            if (Input.GetKey(KeyCode.Space))
+            {
+                currentTime += Time.deltaTime;  //長押しの時間カウント
+                if (first_step_flag == true)    //最初に押した瞬間は一歩進む（短押し用）
+                {
+                    moveForward_D();
+                    first_step_flag = false;
+                }
+                else
+                {
+                    if (currentTime > span)     //長押しで一定時間ごとに前進
+                    {
+                        moveForward_D();
+                        currentTime = 0f;
+                    }
+                }
+            }
+            if (Input.GetKeyUp(KeyCode.Space))  //ボタン離したらフラグ戻す（短押し用）
+            {
+                first_step_flag = true;
+                currentTime = 0f;
+            }
             //END 3.////////////////////////////////////////////////////////////////////////////
         }
 
 
         if (f7_flag == true)
         {
-            //6. 局所回転：pitch，rollあり / 大域回転：デバイス///////////////////////////////////////
-            if (Input.GetKey(KeyCode.LeftArrow))
+            //7. 局所回転：あり（Yaw＋Pitch） / 大域回転：頭部＋デバイス（Yawのみ）//////////////////////////
+            if (Math.Abs(yaw_angle) > Math.Abs(move_angle) && Input.GetKey(KeyCode.Space))  //頭部回転時にスペースキー押すと旋回
             {
-                rotation_angle -= rotation_speed;
+                currentTime = 0f;
+                if (yaw_angle < 0)
+                {
+                    rotation_angle -= rotation_speed;
+                }
+                else
+                {
+                    rotation_angle += rotation_speed;
+                }
             }
-
-            if (Input.GetKey(KeyCode.RightArrow))
+            else if (Math.Abs(yaw_angle) <= Math.Abs(move_angle) && Input.GetKey(KeyCode.Space))
             {
-                rotation_angle += rotation_speed;
+                //歩行動作（長押し・短押し対応版）
+                currentTime += Time.deltaTime;  //長押しの時間カウント
+                if (first_step_flag == true)    //最初に押した瞬間は一歩進む（短押し用）
+                {
+                    moveForward_D();
+                    first_step_flag = false;
+                }
+                else
+                {
+                    if (currentTime > span)     //長押しで一定時間ごとに前進
+                    {
+                        moveForward_D();
+                        currentTime = 0f;
+                    }
+                }
             }
-
+            if (Input.GetKeyUp(KeyCode.Space))  //ボタン離したらフラグ戻す（短押し用）
+            {
+                first_step_flag = true;
+                currentTime = 0f;
+            }
             newAngle.y = yaw_angle - initial_angle + rotation_angle;     //首回転角＋初期調整角度＋旋回角度
+            newAngle.z = 0;                                              //首回転角roll初期化
             newAngle.x = pitch_angle + initial_angle_pitch;              //首回転角pitch
-            newAngle.z = roll_angle;                                     //首回転角roll
             VReye.gameObject.transform.localEulerAngles = newAngle;
             //END 3.////////////////////////////////////////////////////////////////////////////
         }
 
+
+        //1-1. 局所回転：あり（Yawのみ） / 大域回転：頭部制御（顔戻しなし），キーボード操作（Pitch）//////////
+        //頭部制御部
+        //if (Math.Abs(yaw_angle) > Math.Abs(move_angle))
+        //{
+        //    if (yaw_angle < 0)
+        //    {
+        //        rotation_angle -= rotation_speed;
+        //    }
+        //    else
+        //    {
+        //        rotation_angle += rotation_speed;
+        //    }
+        //}
+        //キーボード操作部（Pitch）
+        //if (Input.GetKey(KeyCode.UpArrow))
+        //{
+        //    if (rotation_angle_pitch > min_pitch)
+        //    {
+        //        rotation_angle_pitch -= rotation_speed;
+        //    }
+        //}
+        //if (Input.GetKey(KeyCode.DownArrow))
+        //{
+        //    if (rotation_angle_pitch < max_pitch)
+        //    {
+        //        rotation_angle_pitch += rotation_speed;
+        //    }
+        //}
+        //newAngle.x = rotation_angle_pitch;                           //キーボードでpitch角操作
+        //newAngle.z = 0;      //首回転角roll初期化
+        //newAngle.y = yaw_angle - initial_angle + rotation_angle;     //首回転角＋初期調整角度＋旋回角度
+        //VReye.gameObject.transform.localEulerAngles = newAngle;
+        //END 1-1.//////////////////////////////////////////////////////////////////////////////////////////
 
         //1-2. 局所回転：あり / 大域回転：頭部（顔戻しあり）//////////////////////////////////////
         //もしmove_angleより大きければ角度取得，画面旋回
@@ -369,10 +558,107 @@ public class FaceController_tobii : MonoBehaviour
         //    MainCamera.gameObject.transform.localEulerAngles = newAngle;
         //}
         //END 1-2.//////////////////////////////////////////////////////////////////////////
+
+        //2-1. 局所回転：なし / 大域回転：頭部制御（Yawのみ），キーボード操作（Pitch）/////////////////////
+        //if (Math.Abs(yaw_angle) > Math.Abs(move_angle))
+        //{
+        //    if (yaw_angle < 0)
+        //    {
+        //        rotation_angle -= rotation_speed;
+        //    }
+        //    else
+        //    {
+        //        rotation_angle += rotation_speed;
+        //    }
+        //}
+
+        //if (Input.GetKey(KeyCode.UpArrow))
+        //{
+        //    if (rotation_angle_pitch > min_pitch)
+        //    {
+        //        rotation_angle_pitch -= rotation_speed;
+        //    }
+        //}
+
+        //if (Input.GetKey(KeyCode.DownArrow))
+        //{
+        //    if (rotation_angle_pitch < max_pitch)
+        //    {
+        //        rotation_angle_pitch += rotation_speed;
+        //    }
+        //}
+        //newAngle.x = rotation_angle_pitch;                           //キーボードでpitch角操作
+        //                                                             //newAngle.x = 0;      //首回転角pitch初期化
+        //newAngle.z = 0;      //首回転角roll初期化
+        //newAngle.y = -initial_angle + rotation_angle;     //初期調整角度＋旋回角度
+        //VReye.gameObject.transform.localEulerAngles = newAngle;
+        //END 2.//////////////////////////////////////////////////////////////////////////////////////////
+
+        //5. 局所回転：あり（Yawのみ，ゲイン付き） / 大域回転：デバイス（Yaw＋Pitch）///////////////////////////////
+        //if (Input.GetKey(KeyCode.LeftArrow))
+        //{
+        //    rotation_angle -= rotation_speed;
+        //}
+
+        //if (Input.GetKey(KeyCode.RightArrow))
+        //{
+        //    rotation_angle += rotation_speed;
+        //}
+
+        //if (Input.GetKey(KeyCode.UpArrow))
+        //{
+        //    if (rotation_angle_pitch > min_pitch)
+        //    {
+        //        rotation_angle_pitch -= rotation_speed;
+        //    }
+        //}
+
+        //if (Input.GetKey(KeyCode.DownArrow))
+        //{
+        //    if (rotation_angle_pitch < max_pitch)
+        //    {
+        //        rotation_angle_pitch += rotation_speed;
+        //    }
+        //}
+        //newAngle.x = rotation_angle_pitch;                           //キーボードでpitch角操作
+        //                                                             //newAngle.x = 0;      //首回転角pitch初期化
+        //newAngle.z = 0;      //首回転角roll初期化
+        //newAngle.y = yaw_angle * rotation_gain - initial_angle + rotation_angle;     //（首回転角×ゲイン）＋初期調整角度＋旋回角度
+        //VReye.gameObject.transform.localEulerAngles = newAngle;
+        //END 5./////////////////////////////////////////////////////////////////////////////
+
+        //局所回転：あり（Yaw＋Pitch＋Roll） / 大域回転：デバイス//////////////////////////
+        //if (Input.GetKey(KeyCode.LeftArrow))
+        //{
+        //    rotation_angle -= rotation_speed;
+        //}
+
+        //if (Input.GetKey(KeyCode.RightArrow))
+        //{
+        //    rotation_angle += rotation_speed;
+        //}
+
+        //newAngle.y = yaw_angle - initial_angle + rotation_angle;     //首回転角＋初期調整角度＋旋回角度
+        //newAngle.x = pitch_angle + initial_angle_pitch;              //首回転角pitch
+        //newAngle.z = roll_angle;                                     //首回転角roll
+        //VReye.gameObject.transform.localEulerAngles = newAngle;
+        //END 3.////////////////////////////////////////////////////////////////////////////
     }
 
     void FlagDown()
     {
         f1_flag = f2_flag = f3_flag = f4_flag = f5_flag = f6_flag = f7_flag = false;
     }
+
+    //離散移動の関数/////////////////////////////////////////////////////////////
+    private void moveForward_D()
+    {
+        VReye.transform.position = VReye.transform.position + new Vector3(mainCamera.transform.forward.x, 0, mainCamera.transform.forward.z) * Time.deltaTime * stride;
+    }
+
+    private void moveBackward_D()
+    {
+        VReye.transform.position = VReye.transform.position + new Vector3(mainCamera.transform.forward.x, 0, mainCamera.transform.forward.z) * Time.deltaTime * stride * (-1);
+    }
+
 }
